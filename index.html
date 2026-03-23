@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>筋肉タイピング / Muscle Typing | MuscleLove</title>
+    <meta name="description" content="筋肉タイピングゲーム！フィットネス用語をタイプして筋肉レベルを測ろう！ Muscle Typing Game by MuscleLove">
+    <meta property="og:title" content="筋肉タイピング / Muscle Typing | MuscleLove">
+    <meta property="og:description" content="60秒でどれだけタイプできる？筋肉ワードでタイピングスピードを鍛えよう！💪">
+    <meta property="og:image" content="images/img1.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background image layer -->
+    <div id="bg-image" class="bg-image"></div>
+    <div class="bg-overlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">
+                <span class="title-jp">筋肉タイピング</span>
+                <span class="title-en">Muscle Typing</span>
+            </h1>
+            <div class="brand">MuscleLove 💪</div>
+        </header>
+
+        <!-- Start Screen -->
+        <div id="screen-start" class="screen active">
+            <div class="start-content">
+                <div class="start-icon">⌨️💪</div>
+                <h2>
+                    <span class="label-jp">筋肉ワードをタイプせよ！</span>
+                    <span class="label-en">Type the muscle words!</span>
+                </h2>
+                <p class="start-desc">
+                    <span class="label-jp">60秒間でできるだけ多くのフィットネス用語をタイプしよう</span><br>
+                    <span class="label-en">Type as many fitness terms as you can in 60 seconds</span>
+                </p>
+                <div class="start-rules">
+                    <div class="rule">
+                        <span class="rule-icon">📝</span>
+                        <span class="label-jp">表示された単語をタイプ</span>
+                        <span class="label-en">Type the displayed word</span>
+                    </div>
+                    <div class="rule">
+                        <span class="rule-icon">⏱️</span>
+                        <span class="label-jp">制限時間：60秒</span>
+                        <span class="label-en">Time limit: 60 seconds</span>
+                    </div>
+                    <div class="rule">
+                        <span class="rule-icon">🔥</span>
+                        <span class="label-jp">コンボを繋げて高得点！</span>
+                        <span class="label-en">Chain combos for high scores!</span>
+                    </div>
+                </div>
+                <button id="btn-start" class="btn btn-primary">
+                    <span class="label-jp">スタート</span>
+                    <span class="label-en">Start</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="screen-game" class="screen">
+            <div class="game-hud">
+                <div class="hud-item">
+                    <span class="hud-label">
+                        <span class="label-jp">タイム</span>
+                        <span class="label-en">Time</span>
+                    </span>
+                    <span id="hud-timer" class="hud-value timer-value">60</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">
+                        <span class="label-jp">スコア</span>
+                        <span class="label-en">Score</span>
+                    </span>
+                    <span id="hud-score" class="hud-value">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">
+                        <span class="label-jp">コンボ</span>
+                        <span class="label-en">Combo</span>
+                    </span>
+                    <span id="hud-combo" class="hud-value">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">
+                        <span class="label-jp">WPM</span>
+                        <span class="label-en">Words/Min</span>
+                    </span>
+                    <span id="hud-wpm" class="hud-value">0</span>
+                </div>
+            </div>
+
+            <div class="timer-bar-container">
+                <div id="timer-bar" class="timer-bar"></div>
+            </div>
+
+            <div id="word-display" class="word-display">
+                <span id="current-word" class="current-word">muscle</span>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="typing-input" class="typing-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ここにタイプ / Type here...">
+            </div>
+
+            <div id="combo-display" class="combo-display hidden">
+                <span id="combo-text"></span>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="screen-result" class="screen">
+            <div class="result-content">
+                <h2 class="result-title">
+                    <span class="label-jp">結果発表！</span>
+                    <span class="label-en">Results!</span>
+                </h2>
+
+                <div id="result-rank" class="result-rank"></div>
+
+                <div class="result-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">⌨️</div>
+                        <div class="stat-value" id="result-wpm">0</div>
+                        <div class="stat-label">
+                            <span class="label-jp">タイプ速度</span>
+                            <span class="label-en">WPM</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value" id="result-correct">0</div>
+                        <div class="stat-label">
+                            <span class="label-jp">正解数</span>
+                            <span class="label-en">Correct</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-value" id="result-combo">0</div>
+                        <div class="stat-label">
+                            <span class="label-jp">最大コンボ</span>
+                            <span class="label-en">Max Combo</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-value" id="result-accuracy">0%</div>
+                        <div class="stat-label">
+                            <span class="label-jp">正確率</span>
+                            <span class="label-en">Accuracy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-buttons">
+                    <button id="btn-share" class="btn btn-accent">
+                        <span class="label-jp">結果をシェア</span>
+                        <span class="label-en">Share Result</span>
+                    </button>
+                    <button id="btn-retry" class="btn btn-primary">
+                        <span class="label-jp">もう一回</span>
+                        <span class="label-en">Play Again</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patreon CTA -->
+        <footer class="footer">
+            <a href="https://www.patreon.com/c/MuscleLove" target="_blank" rel="noopener noreferrer" class="patreon-cta">
+                <span class="label-jp">🔥 もっと筋肉コンテンツを見る</span>
+                <span class="label-en">More muscle content on Patreon</span>
+            </a>
+        </footer>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
